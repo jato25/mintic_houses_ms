@@ -1,4 +1,4 @@
-package houses_ms.grupo3.houses_ms;
+package houses_ms;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
