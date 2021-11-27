@@ -8,5 +8,6 @@ import java.util.List;
 public interface InmuebleRepository extends MongoRepository<Inmueble, String> {
 
     List<Inmueble> findByPropietario (String propietario);
+    List<Inmueble> findByDisponible (Boolean disponible);
 
 }
