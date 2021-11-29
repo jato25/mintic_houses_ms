@@ -1,5 +1,6 @@
 package houses_ms.controllers;
 
+import houses_ms.exceptions.ArrendamientoNotFoundException;
 import houses_ms.exceptions.BusyInmuebleException;
 import houses_ms.exceptions.InmuebleNotFoundException;
 import houses_ms.models.Arrendamiento;
@@ -43,4 +44,24 @@ public class ArrendamientoController {
     List<Arrendamiento> userArrendamientos (@PathVariable String username){
         return arrendamientoRepository.findByArrendatario(username);
     }
+
+    @DeleteMapping("/arrendamientos/{id}")
+    void deleteArrendamiento(@PathVariable String id)
+    {
+        Arrendamiento arrendamiento = arrendamientoRepository.findById(id).orElse(null);
+        if (arrendamiento == null) {
+            throw new ArrendamientoNotFoundException("No se encontró el arrendamiento a eliminar");
+        }
+
+        Inmueble inmueble = inmuebleRepository.findById(arrendamiento.getId_inmueble()).orElse(null);
+        if (inmueble == null){
+            throw new InmuebleNotFoundException("No se encontró el inmueble especificado");
+        }
+
+        inmueble.setDisponible(Boolean.TRUE);
+        inmuebleRepository.save(inmueble);
+
+        arrendamientoRepository.delete(arrendamiento);
+    }
+
 }
